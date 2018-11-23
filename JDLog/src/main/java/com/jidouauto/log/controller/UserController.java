@@ -3,15 +3,19 @@ package com.jidouauto.log.controller;
 import com.jidouauto.log.model.UserDomain;
 import com.jidouauto.log.service.personal.PersonalService;
 import com.jidouauto.log.service.user.UserService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by Administrator on 2017/8/16.
  */
-@Controller
-@RequestMapping(value = "/user")
+@RestController("UserController")
+@RequestMapping("/v1")
+@Api(description = "user", tags = "user")
 public class UserController {
 
     @Autowired
@@ -24,23 +28,23 @@ public class UserController {
     public int addUser(UserDomain user) {
         return userService.addUser(user);
     }
-
-    @ResponseBody
-    @GetMapping("/all")
-    public Object findAllUser(
-            @RequestParam(name = "pageNum", required = false, defaultValue = "1")
-                    int pageNum,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "10")
-                    int pageSize) {
-        return userService.findAllUser(pageNum, pageSize);
-    }
-
-    @ResponseBody
-    @GetMapping("/allp")
-    public Object getAllPerson(@RequestParam(name = "pageNum", required = false, defaultValue = "1")
-                                       int pageNum,
-                               @RequestParam(name = "pageSize", required = false, defaultValue = "10")
-                                       int pageSize) {
-        return personalService.getAll(pageNum, pageSize);
-    }
+//
+//    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+//    @ApiOperation(value = "获取所有用户数据", notes = "获取所有用户数据")
+//    public Object findAllUser(
+//            @ApiParam(required = true, name = "pageNum", value = "页码")
+//            @RequestParam(value = "pageNum", required = true) int pageNum,
+//            @ApiParam(required = true, name = "pageSize", value = "条数")
+//            @RequestParam(value = "pageSize", required = true) int pageSize) {
+//        return userService.findAllUser(pageNum, pageSize);
+//    }
+//
+//    @RequestMapping(value = "/getAll2", method = RequestMethod.GET)
+//    @ApiOperation(value = "获取所有用户数据", notes = "获取所有用户数据")
+//    public Object getAllPerson(@ApiParam(required = true, name = "pageNum", value = "页码")
+//                               @RequestParam(value = "pageNum", required = true) int pageNum,
+//                               @ApiParam(required = true, name = "pageSize", value = "条数")
+//                               @RequestParam(value = "pageSize", required = true) int pageSize) {
+//        return personalService.getAll(pageNum, pageSize);
+//    }
 }
