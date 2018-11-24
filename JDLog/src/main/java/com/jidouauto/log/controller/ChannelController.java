@@ -1,23 +1,24 @@
 package com.jidouauto.log.controller;
 
 import com.jidouauto.log.service.channel.ChannelService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping(value = "/channel")
+@RestController("ChannelController")
+@RequestMapping("/v1/channel")
+@Api(description = "channel", tags = "channel")
 public class ChannelController {
 
     @Autowired
     private ChannelService channelService;
 
-    @ResponseBody
-    @GetMapping("/getAll")
-    public Object getAll(){
+    @RequestMapping(value = "/getChannel", method = RequestMethod.GET)
+    @ApiOperation(value = "获取渠道", notes = "获取渠道")
+    public Object getChannel() {
         return channelService.getChannels();
     }
 
