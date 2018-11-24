@@ -17,9 +17,26 @@ public class ChannelServiceImpl implements ChannelService {
     private ChannelDao channelDao;
 
     @Override
-    public PageInfo<ChannelEntity> getChannels() {
-        PageHelper.startPage(1, 10);
+    public PageInfo<ChannelEntity> getChannels(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         List<ChannelEntity> response = channelDao.getChannels();
         return new PageInfo(response);
     }
+
+    @Override
+    public ChannelEntity getChannel(int channelId) {
+        return channelDao.getChannel(channelId);
+    }
+
+    @Override
+    public void insert(ChannelEntity channelEntity) {
+        channelDao.insert(channelEntity);
+    }
+
+    @Override
+    public void update(int channelId) {
+
+    }
+
+
 }

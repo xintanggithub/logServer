@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jidouauto.log.dao.ChannelDao" >
+<mapper namespace="com.jidouauto.log.dao.ChannelDao">
     <sql id="BASE_TABLE">
         channel
     </sql>
 
     <sql id="BASE_COLUMN">
-        channelId,channelName
+        channelId
+        ,
+        channelName,
+        UNIX_TIMESTAMP
+        (
+        createTime
+        )
+        createTime,
+        UNIX_TIMESTAMP
+        (
+        updateTime
+        )
+        updateTime
     </sql>
 
     <select id="getChannels" resultType="com.jidouauto.log.model.ChannelEntity">
@@ -15,5 +27,19 @@
         FROM
         <include refid="BASE_TABLE"/>
     </select>
+
+    <select id="getChannel" resultType="com.jidouauto.log.model.ChannelEntity">
+        SELECT
+        <include refid="BASE_COLUMN"/>
+        FROM channel
+        WHERE channelId = #{channelId}
+    </select>
+
+    <insert id="insert" parameterType="com.jidouauto.log.model.ChannelEntity">
+        INSERT INTO
+        <include refid="BASE_TABLE"/>
+        VALUES (#{channelId},#{channelName},FROM_UNIXTIME(#{createTime},'%Y-%m-%d
+        %h:%i:%s'),FROM_UNIXTIME(#{updateTime},'%Y-%m-%d %h:%i:%s'))
+    </insert>
 
 </mapper>
