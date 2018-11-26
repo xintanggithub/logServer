@@ -22,11 +22,6 @@ public class ChannelServiceImpl implements ChannelService {
 
     private BaseResponse checkParams(ChannelEntity channelEntity) {
         BaseResponse response = new BaseResponse();
-        if (channelEntity.getChannelId() <= 0) {
-            response.setResultCode(LogCode.RC_PARAMETER_ERROR.getCode());
-            response.setResultMessage(LogCode.RC_PARAMETER_ERROR.getMessage() + " ->  channelId");
-            return response;
-        }
         if (StringUtils.isEmpty(channelEntity.getChannelName())) {
             response.setResultCode(LogCode.RC_PARAMETER_ERROR.getCode());
             response.setResultMessage(LogCode.RC_PARAMETER_ERROR.getMessage() + " ->  channelName");
@@ -101,6 +96,11 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public BaseResponse update(ChannelEntity channelEntity) {
         BaseResponse<ListBaseData<ChannelEntity>> response = new BaseResponse<>();
+        if (channelEntity.getChannelId() <= 0) {
+            response.setResultCode(LogCode.RC_PARAMETER_ERROR.getCode());
+            response.setResultMessage(LogCode.RC_PARAMETER_ERROR.getMessage() + " ->  channelId");
+            return response;
+        }
         BaseResponse baseResponse = checkParams(channelEntity);
         if (LogCode.RC_SUCCESS.getCode() != baseResponse.getResultCode()) {
             return baseResponse;

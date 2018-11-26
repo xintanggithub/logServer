@@ -1,6 +1,5 @@
 package com.jidouauto.log.service.channel;
 
-import com.github.pagehelper.PageInfo;
 import com.jidouauto.log.base.BaseResponse;
 import com.jidouauto.log.base.ListBaseData;
 import com.jidouauto.log.model.ChannelEntity;
