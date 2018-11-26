@@ -38,4 +38,9 @@ public class ChannelServiceImpl implements ChannelService {
         channelDao.update(channelEntity);
     }
 
+    @Override
+    public void delete(int channelId) {
+        channelDao.delete(channelId);
+    }
+
 }

@@ -78,4 +78,15 @@ public class ChannelController {
         return response;
     }
 
+    @RequestMapping(value = "/deleteChannel", method = RequestMethod.GET)
+    @ApiOperation(value = "删除渠道信息", notes = "删除渠道信息")
+    public BaseResponse delete(@ApiParam(required = true, name = "channelId", value = "渠道ID")
+                               @RequestParam(value = "channelId", required = true) int channelId) {
+        BaseResponse<ListBaseData<ChannelEntity>> response = new BaseResponse<>();
+        response.setResultCode(LogCode.RC_SUCCESS.getCode());
+        response.setResultMessage(LogCode.RC_SUCCESS.getMessage());
+        channelService.delete(channelId);
+        return response;
+    }
+
 }

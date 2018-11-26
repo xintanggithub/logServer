@@ -49,5 +49,11 @@
         WHERE channelId = #{channelId}
     </update>
 
+    <delete id="delete" parameterType="int">
+        DELETE
+        FROM channel
+        WHERE channelId = #{channelId}
+    </delete>
+
 
 </mapper>

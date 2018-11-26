@@ -18,4 +18,7 @@ public interface ChannelDao {
     //更新渠道
     void update(ChannelEntity channelEntity);
 
+    //删除渠道信息
+    void delete(int channelId);
+
 }

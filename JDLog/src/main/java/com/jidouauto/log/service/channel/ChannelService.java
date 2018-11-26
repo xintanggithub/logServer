@@ -13,4 +13,6 @@ public interface ChannelService {
 
     void update(ChannelEntity channelEntity);
 
+    void delete(int channelId);
+    
 }
