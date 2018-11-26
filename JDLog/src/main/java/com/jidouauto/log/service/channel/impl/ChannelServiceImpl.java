@@ -90,6 +90,8 @@ public class ChannelServiceImpl implements ChannelService {
             return baseResponse;
         }
         channelDao.insert(channelEntity);
+        response.setResultMessage(LogCode.RC_SUCCESS.getMessage());
+        response.setResultCode(LogCode.RC_SUCCESS.getCode());
         return response;
     }
 
@@ -106,6 +108,8 @@ public class ChannelServiceImpl implements ChannelService {
             return baseResponse;
         }
         channelDao.update(channelEntity);
+        response.setResultMessage(LogCode.RC_SUCCESS.getMessage());
+        response.setResultCode(LogCode.RC_SUCCESS.getCode());
         return response;
     }
 
