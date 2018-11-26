@@ -37,9 +37,9 @@
 
     <insert id="insert" parameterType="com.jidouauto.log.model.ChannelEntity">
         INSERT INTO
-        <include refid="BASE_TABLE"/>
-        VALUES (#{channelId},#{channelName},FROM_UNIXTIME(#{createTime},'%Y-%m-%d
-        %h:%i:%s'),FROM_UNIXTIME(#{updateTime},'%Y-%m-%d %h:%i:%s'))
+            channel(channelName, createTime, updateTime)
+        VALUES (#{channelName}, FROM_UNIXTIME(#{createTime}, '%Y-%m-%d
+        %h:%i:%s'), FROM_UNIXTIME(#{updateTime}, '%Y-%m-%d %h:%i:%s'))
     </insert>
 
 </mapper>
