@@ -1,8 +1,9 @@
 package com.jidouauto.log.base;
 
 public enum LogCode {
-    RC_SUCCESS(1, "success"),
-    RC_RESULT_EMPTY(501, "result data is empty");
+    RC_PARAMETER_ERROR(1002, "Parameter error,Please check parameters！"),
+    RC_RESULT_EMPTY(1001, "result data is empty"),
+    RC_SUCCESS(1, "success");
 
     private int code;
     private String message;

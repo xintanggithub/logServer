@@ -1,18 +1,20 @@
 package com.jidouauto.log.service.channel;
 
 import com.github.pagehelper.PageInfo;
+import com.jidouauto.log.base.BaseResponse;
+import com.jidouauto.log.base.ListBaseData;
 import com.jidouauto.log.model.ChannelEntity;
 
 public interface ChannelService {
 
-    PageInfo<ChannelEntity> getChannels(int pageNum, int pageSize);
+    BaseResponse<ListBaseData<ChannelEntity>> getChannels(int pageNum, int pageSize);
 
-    ChannelEntity getChannel(int channelId);
+    BaseResponse<ChannelEntity> getChannel(int channelId);
 
-    void insert(ChannelEntity channelEntity);
+    BaseResponse insert(ChannelEntity channelEntity);
 
-    void update(ChannelEntity channelEntity);
+    BaseResponse update(ChannelEntity channelEntity);
 
-    void delete(int channelId);
-    
+    BaseResponse delete(int channelId);
+
 }
