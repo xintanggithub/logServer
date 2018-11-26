@@ -68,5 +68,14 @@ public class ChannelController {
         return response;
     }
 
+    @RequestMapping(value = "/updateChannel", method = RequestMethod.POST)
+    @ApiOperation(value = "更新渠道信息", notes = "更新渠道信息")
+    public BaseResponse update(@RequestBody ChannelEntity channelEntity) {
+        BaseResponse<ListBaseData<ChannelEntity>> response = new BaseResponse<>();
+        response.setResultCode(LogCode.RC_SUCCESS.getCode());
+        response.setResultMessage(LogCode.RC_SUCCESS.getMessage());
+        channelService.update(channelEntity);
+        return response;
+    }
 
 }

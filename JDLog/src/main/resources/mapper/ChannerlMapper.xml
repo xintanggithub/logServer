@@ -39,7 +39,15 @@
         INSERT INTO
             channel(channelName, createTime, updateTime)
         VALUES (#{channelName}, FROM_UNIXTIME(#{createTime}, '%Y-%m-%d
-        %h:%i:%s'), FROM_UNIXTIME(#{updateTime}, '%Y-%m-%d %h:%i:%s'))
+        %h:%i:%s'), FROM_UNIXTIME(#{createTime}, '%Y-%m-%d %h:%i:%s'))
     </insert>
+
+    <update id="update" parameterType="com.jidouauto.log.model.ChannelEntity">
+        UPDATE channel
+        SET channelName       = #{channelName},
+            channel.updateTime=FROM_UNIXTIME(#{updateTime}, '%Y-%m-%d %h:%i:%s')
+        WHERE channelId = #{channelId}
+    </update>
+
 
 </mapper>

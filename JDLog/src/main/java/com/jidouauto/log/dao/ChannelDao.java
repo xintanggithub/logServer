@@ -16,6 +16,6 @@ public interface ChannelDao {
     void insert(ChannelEntity channelEntity);
 
     //更新渠道
-    void update(int channelId);
+    void update(ChannelEntity channelEntity);
 
 }

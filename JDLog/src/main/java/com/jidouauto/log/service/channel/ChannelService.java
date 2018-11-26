@@ -5,12 +5,12 @@ import com.jidouauto.log.model.ChannelEntity;
 
 public interface ChannelService {
 
-    PageInfo<ChannelEntity> getChannels(int pageNum,int pageSize);
+    PageInfo<ChannelEntity> getChannels(int pageNum, int pageSize);
 
     ChannelEntity getChannel(int channelId);
 
     void insert(ChannelEntity channelEntity);
 
-    void update(int channelId);
+    void update(ChannelEntity channelEntity);
 
 }

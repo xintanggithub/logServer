@@ -34,9 +34,8 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public void update(int channelId) {
-
+    public void update(ChannelEntity channelEntity) {
+        channelDao.update(channelEntity);
     }
-
 
 }
