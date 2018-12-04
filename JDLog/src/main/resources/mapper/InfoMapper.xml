@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jidouauto.log.dao.InfoDao">
+
+    <sql id="BASE_COLUMN">
+        appId
+        ,
+        channelId,
+        channelName,
+        UNIX_TIMESTAMP
+        (
+        createTime
+        )
+        createTime,
+        UNIX_TIMESTAMP
+        (
+        updateTime
+        )
+        updateTime,
+        appName,
+        appPackage
+    </sql>
+
+    <select id="getInfos" resultType="com.jidouauto.log.model.InfoEntity">
+        select
+        <include refid="BASE_COLUMN"/>
+        from info limit
+        #{page},
+        #{pageSize}
+    </select>
+
+    <select id="getInfosByChannel" resultType="com.jidouauto.log.model.InfoEntity">
+        select
+        <include refid="BASE_COLUMN"/>
+        from info
+        where channelId = #{channelId} limit #{page}
+        ,
+        #{pageSize}
+    </select>
+
+    <select id="getInfo" resultType="com.jidouauto.log.model.InfoEntity">
+        select
+        <include refid="BASE_COLUMN"/>
+        from info
+        where appId = #{appId}
+    </select>
+
+    <insert id="insert" parameterType="com.jidouauto.log.model.InfoEntity">
+        INSERT INTO info(channelId, appName, appPackage, createTime, updateTime, channelName)
+        VALUES (#{channelId}, #{appName}, #{appPackage},
+                FROM_UNIXTIME(
+                        #{createTime},
+                        '%Y-%m-%d %h:%i:%s'), FROM_UNIXTIME(
+                        #{createTime},
+                        '%Y-%m-%d %h:%i:%s'), #{channelName})
+    </insert>
+
+    <update id="update" parameterType="com.jidouauto.log.model.InfoEntity">
+        UPDATE info
+        set
+        <if test="channelId!=null">
+            channelId=#{channelId},
+        </if>
+        <if test="appName!=null">
+            appName=#{appName},
+        </if>
+        <if test="appPackage!=null">
+            appPackage=#{appPackage},
+        </if>
+        <if test="updateTime!=null">
+            updateTime=FROM_UNIXTIME(#{updateTime}, '%Y-%m-%d %h:%i:%s'),
+        </if>
+        <if test="channelName!=null">
+            channelName=#{channelName}
+        </if>
+        where appId = #{appId}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE
+        FROM channel
+        where appId = #{appId}
+    </delete>
+
+</mapper>

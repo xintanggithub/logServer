@@ -3,8 +3,6 @@ package com.jidouauto.log.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Date;
-
 @ApiModel(description = "渠道实体类")
 public class ChannelEntity {
     @ApiModelProperty(value = "渠道ID")

@@ -53,7 +53,6 @@ public class ChannelServiceImpl implements ChannelService {
         //数据组装
         ListBaseData<ChannelEntity> channels = new ListBaseData<>();
         channels.setLists(pageInfo.getList());
-        channels.setPageNum(pageInfo.getPageNum());
         channels.setPageSize(pageInfo.getSize());
         channels.setTotalCount((int) pageInfo.getTotal());
         response.setData(channels);
