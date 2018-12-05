@@ -27,6 +27,7 @@
         <com.github.pagehelper.version>1.2.5</com.github.pagehelper.version>
         <com.alibaba.druid.version>1.1.9</com.alibaba.druid.version>
         <com.swagger2.version>2.2.2</com.swagger2.version>
+        <ali.fastjson.version>1.2.15</ali.fastjson.version>
     </properties>
 
     <dependencies>
@@ -92,6 +93,15 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${com.swagger2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${ali.fastjson.version}</version>
         </dependency>
     </dependencies>
 

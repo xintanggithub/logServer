@@ -1,6 +1,7 @@
 package com.jidouauto.log.base;
 
 public enum LogCode {
+    RC_UPLOAD_FILE_ERROR(4001, "file Stream is empty "),
     RC_PARAMETER_ERROR(1002, "Parameter error,Please check parameters！"),
     RC_RESULT_EMPTY(1001, "result data is empty"),
     RC_SUCCESS(1, "success");
