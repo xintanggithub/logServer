@@ -1,8 +1,10 @@
 package com.jidouauto.log.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.jidouauto.log.base.BaseResponse;
 import com.jidouauto.log.base.LogCode;
+import com.jidouauto.log.model.AppInfoByHeaderEntity;
 import com.jidouauto.log.utils.FileUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+
+import static com.jidouauto.log.model.AppInfoByHeaderEntity.*;
 
 @RestController("UploadController")
 @RequestMapping("/v1/upload")
@@ -27,7 +33,18 @@ public class UploadController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ApiOperation(value = "上传文件", notes = "提供各种文件上传服务")
-    public BaseResponse<String> uploadFile(@RequestParam(value = "file", required = true) MultipartFile file) {
+    public BaseResponse<String> uploadFile(@RequestParam(value = "file", required = true) MultipartFile file
+            , HttpServletRequest request) {
+        AppInfoByHeaderEntity headers = new AppInfoByHeaderEntity();
+        if (request != null) {
+            headers.setAppName(request.getHeader(X_AUTH_APP_NAME));
+            headers.setChannel(request.getHeader(X_AUTH_CHANNEL));
+            headers.setDeviceType(request.getHeader(X_AUTH_DEVICE_TYPE));
+            headers.setPackageName(request.getHeader(X_AUTH_PACKAGE_NAME));
+            headers.setVersionCode(StringUtils.isEmpty(request.getHeader(X_AUTH_VERSION_CODE)) ? 0
+                    : Integer.valueOf(request.getHeader(X_AUTH_VERSION_CODE)));
+            headers.setVersionName(request.getHeader(X_AUTH_VERSION_NAME));
+        }
         BaseResponse<String> response = new BaseResponse<>();
         if (file.isEmpty()) {
             response.setResultCode(LogCode.RC_UPLOAD_FILE_ERROR.getCode());
