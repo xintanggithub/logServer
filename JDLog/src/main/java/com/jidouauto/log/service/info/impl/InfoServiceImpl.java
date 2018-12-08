@@ -79,8 +79,8 @@ public class InfoServiceImpl implements InfoService {
     }
 
     @Override
-    public BaseResponse insert(InfoEntity infoEntity) {
-        BaseResponse response = new BaseResponse();
+    public BaseResponse<Integer> insert(InfoEntity infoEntity) {
+        BaseResponse<Integer> response = new BaseResponse();
         if (null == infoEntity || StringUtils.isEmpty(infoEntity.getChannelName())
                 || StringUtils.isEmpty(infoEntity.getAppPackage()) || StringUtils.isEmpty(infoEntity.getAppName())
                 || infoEntity.getChannelId() <= 0) {
@@ -89,6 +89,7 @@ public class InfoServiceImpl implements InfoService {
             return response;
         }
         infoDao.insert(infoEntity);
+        response.setData(infoEntity.getAppId());
         response.setResultCode(LogCode.RC_SUCCESS.getCode());
         response.setResultMessage(LogCode.RC_SUCCESS.getMessage());
         return response;

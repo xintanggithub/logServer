@@ -97,7 +97,7 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     public BaseResponse update(ChannelEntity channelEntity) {
-        BaseResponse<ListBaseData<ChannelEntity>> response = new BaseResponse<>();
+        BaseResponse<Integer> response = new BaseResponse<>();
         if (channelEntity.getChannelId() <= 0) {
             response.setResultCode(LogCode.RC_PARAMETER_ERROR.getCode());
             response.setResultMessage(LogCode.RC_PARAMETER_ERROR.getMessage() + " ->  channelId");

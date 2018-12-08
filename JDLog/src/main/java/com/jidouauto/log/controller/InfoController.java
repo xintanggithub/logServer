@@ -47,7 +47,7 @@ public class InfoController {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "插入应用信息", notes = "插入应用信息")
-    public BaseResponse insert(@RequestBody InfoEntity infoEntity) {
+    public BaseResponse<Integer> insert(@RequestBody InfoEntity infoEntity) {
         return infoService.insert(infoEntity);
     }
 

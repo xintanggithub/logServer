@@ -16,7 +16,7 @@ public interface InfoService {
     BaseResponse<InfoEntity> getInfo(int infoId);
 
     //插入应用
-    BaseResponse insert(InfoEntity infoEntity);
+    BaseResponse<Integer> insert(InfoEntity infoEntity);
 
     //更新应用
     BaseResponse update(InfoEntity infoEntity);
