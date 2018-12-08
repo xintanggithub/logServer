@@ -45,13 +45,13 @@ public class VersionController {
         return versionService.getVersionByVersionId(versionId);
     }
 
-    @RequestMapping(value = "/insert", method = RequestMethod.GET)
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "插入版本信息", notes = "插入版本信息")
     public BaseResponse<Integer> insert(@RequestBody VersionEntity versionEntity) {
         return versionService.insert(versionEntity);
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "更新版本信息", notes = "更新版本信息")
     public BaseResponse update(@RequestBody VersionEntity versionEntity) {
         return versionService.update(versionEntity);
