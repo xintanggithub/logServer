@@ -46,7 +46,7 @@ public class UploadController {
         } catch (Exception e) {
             LOGGER.error("upload error : " + JSON.toJSONString(e));
         }
-        // 返回图片的存放路径
+        // 返回存放路径
         response.setData(filePath);
         response.setResultCode(LogCode.RC_SUCCESS.getCode());
         response.setResultMessage(LogCode.RC_SUCCESS.getMessage());
