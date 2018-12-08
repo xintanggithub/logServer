@@ -79,7 +79,7 @@
 
     <delete id="delete" parameterType="int">
         DELETE
-        FROM channel
+        FROM info
         where appId = #{appId}
     </delete>
 

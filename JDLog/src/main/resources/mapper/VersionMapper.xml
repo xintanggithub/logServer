@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jidouauto.log.dao.VersionDao">
+
+    <sql id="BASE_COLUMN">
+        versionId
+        ,
+        appId,
+        versionCode,
+        versionName,
+        UNIX_TIMESTAMP
+        (
+        createTime
+        )
+        createTime,
+        UNIX_TIMESTAMP
+        (
+        updateTime
+        )
+        updateTime
+    </sql>
+
+    <select id="getVersions" resultType="com.jidouauto.log.model.VersionEntity">
+        select
+        <include refid="BASE_COLUMN"/>
+        from version limit
+        #{page},
+        #{pageSize}
+    </select>
+
+    <select id="getVersionsByInfoId" resultType="com.jidouauto.log.model.VersionEntity">
+        select
+        <include refid="BASE_COLUMN"/>
+        from version
+        where appId = #{appId} limit #{page}
+        ,
+        #{pageSize}
+    </select>
+
+    <select id="getVersionByVersionId" resultType="com.jidouauto.log.model.VersionEntity">
+        select
+        <include refid="BASE_COLUMN"/>
+        from version
+        where versionId = #{versionId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="versionId"
+            parameterType="com.jidouauto.log.model.VersionEntity">
+        INSERT INTO version(appId, versionCode, versionName, createTime, updateTime)
+        VALUES (#{appId}, #{versionCode}, #{versionName},
+                FROM_UNIXTIME(
+                        #{createTime},
+                        '%Y-%m-%d %h:%i:%s'), FROM_UNIXTIME(
+                        #{createTime},
+                        '%Y-%m-%d %h:%i:%s'))
+    </insert>
+
+    <update id="update" parameterType="com.jidouauto.log.model.VersionEntity">
+        UPDATE version
+        set
+        <if test="appId!=null">
+            appId=#{appId},
+        </if>
+        <if test="appName!=null">
+            versionCode=#{versionCode},
+        </if>
+        <if test="versionName!=null">
+            versionName=#{versionName},
+        </if>
+        <if test="updateTime!=null">
+            updateTime=FROM_UNIXTIME(#{updateTime}, '%Y-%m-%d %h:%i:%s'),
+        </if>
+        <if test="channelName!=null">
+            channelName=#{channelName}
+        </if>
+        where versionId = #{versionId}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE
+        FROM version
+        where versionId = #{versionId}
+    </delete>
+
+
+</mapper>
