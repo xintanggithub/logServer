@@ -82,13 +82,14 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public BaseResponse insert(ChannelEntity channelEntity) {
-        BaseResponse<ListBaseData<ChannelEntity>> response = new BaseResponse<>();
+    public BaseResponse<Integer> insert(ChannelEntity channelEntity) {
+        BaseResponse<Integer> response = new BaseResponse<>();
         BaseResponse baseResponse = checkParams(channelEntity);
         if (LogCode.RC_SUCCESS.getCode() != baseResponse.getResultCode()) {
             return baseResponse;
         }
         channelDao.insert(channelEntity);
+        response.setData(channelEntity.getChannelId());
         response.setResultMessage(LogCode.RC_SUCCESS.getMessage());
         response.setResultCode(LogCode.RC_SUCCESS.getCode());
         return response;

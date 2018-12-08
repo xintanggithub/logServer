@@ -36,7 +36,7 @@ public class ChannelController {
 
     @RequestMapping(value = "/insertChannel", method = RequestMethod.POST)
     @ApiOperation(value = "上传渠道", notes = "上传渠道")
-    public BaseResponse insert(@RequestBody ChannelEntity channelEntity) {
+    public BaseResponse<Integer> insert(@RequestBody ChannelEntity channelEntity) {
         return channelService.insert(channelEntity);
     }
 

@@ -35,7 +35,8 @@
         WHERE channelId = #{channelId}
     </select>
 
-    <insert id="insert" parameterType="com.jidouauto.log.model.ChannelEntity">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="channelId"
+            parameterType="com.jidouauto.log.model.ChannelEntity">
         INSERT INTO
             channel(channelName, createTime, updateTime)
         VALUES (#{channelName}, FROM_UNIXTIME(#{createTime}, '%Y-%m-%d

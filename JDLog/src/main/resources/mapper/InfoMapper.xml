@@ -45,7 +45,8 @@
         where appId = #{appId}
     </select>
 
-    <insert id="insert" parameterType="com.jidouauto.log.model.InfoEntity">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="appId"
+            parameterType="com.jidouauto.log.model.InfoEntity">
         INSERT INTO info(channelId, appName, appPackage, createTime, updateTime, channelName)
         VALUES (#{channelId}, #{appName}, #{appPackage},
                 FROM_UNIXTIME(

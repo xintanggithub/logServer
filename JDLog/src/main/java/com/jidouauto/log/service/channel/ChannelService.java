@@ -10,7 +10,7 @@ public interface ChannelService {
 
     BaseResponse<ChannelEntity> getChannel(int channelId);
 
-    BaseResponse insert(ChannelEntity channelEntity);
+    BaseResponse<Integer> insert(ChannelEntity channelEntity);
 
     BaseResponse update(ChannelEntity channelEntity);
 
