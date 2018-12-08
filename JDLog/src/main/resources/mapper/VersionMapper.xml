@@ -56,24 +56,20 @@
     </insert>
 
     <update id="update" parameterType="com.jidouauto.log.model.VersionEntity">
+
         UPDATE version
-        set
+        SET
         <if test="appId!=null">
             appId=#{appId},
         </if>
-        <if test="appName!=null">
+        <if test="versionCode!=null">
             versionCode=#{versionCode},
         </if>
-        <if test="versionName!=null">
-            versionName=#{versionName},
+        <if test="versionCode!=null">
+            versionName=#{versionName}
         </if>
-        <if test="updateTime!=null">
-            updateTime=FROM_UNIXTIME(#{updateTime}, '%Y-%m-%d %h:%i:%s'),
-        </if>
-        <if test="channelName!=null">
-            channelName=#{channelName}
-        </if>
-        where versionId = #{versionId}
+        WHERE
+        versionId = #{versionId}
     </update>
 
     <delete id="delete" parameterType="int">

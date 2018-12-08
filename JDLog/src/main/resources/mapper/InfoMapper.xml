@@ -68,9 +68,6 @@
         <if test="appPackage!=null">
             appPackage=#{appPackage},
         </if>
-        <if test="updateTime!=null">
-            updateTime=FROM_UNIXTIME(#{updateTime}, '%Y-%m-%d %h:%i:%s'),
-        </if>
         <if test="channelName!=null">
             channelName=#{channelName}
         </if>

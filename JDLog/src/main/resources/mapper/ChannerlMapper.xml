@@ -45,8 +45,7 @@
 
     <update id="update" parameterType="com.jidouauto.log.model.ChannelEntity">
         UPDATE channel
-        SET channelName       = #{channelName},
-            channel.updateTime=FROM_UNIXTIME(#{updateTime}, '%Y-%m-%d %h:%i:%s')
+        SET channelName = #{channelName}
         WHERE channelId = #{channelId}
     </update>
 
