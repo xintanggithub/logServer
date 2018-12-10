@@ -49,7 +49,7 @@
         select
         <include refid="BASE_COLUMN"/>
         from info
-        where appPackage = #{packageName}
+        where appPackage = #{packageName} and channelId=#{channelId}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="appId"

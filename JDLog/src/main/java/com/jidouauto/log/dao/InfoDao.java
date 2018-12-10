@@ -17,7 +17,7 @@ public interface InfoDao {
     //根据应用ID获取应用信息
     InfoEntity getInfo(@Param("appId") int appId);
 
-    InfoEntity getInfoByPackage(@Param("packageName") String packageName);
+    InfoEntity getInfoByPackage(@Param("channelId") int channelId, @Param("packageName") String packageName);
 
     //插入应用
     void insert(InfoEntity infoEntity);

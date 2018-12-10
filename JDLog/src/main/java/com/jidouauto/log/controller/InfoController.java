@@ -47,9 +47,11 @@ public class InfoController {
 
     @RequestMapping(value = "/getInfoByPackageName", method = RequestMethod.GET)
     @ApiOperation(value = "获取应用信息", notes = "获取应用信息")
-    public BaseResponse<InfoEntity> getInfoByPackageName(@ApiParam(required = true, name = "packageName", value = "包名")
+    public BaseResponse<InfoEntity> getInfoByPackageName(@ApiParam(required = true, name = "channelId", value = "渠道ID")
+                                                         @RequestParam(value = "channelId", required = true) int channelId,
+                                                         @ApiParam(required = true, name = "packageName", value = "包名")
                                                          @RequestParam(value = "packageName", required = true) String packageName) {
-        return infoService.getInfoByPackage(packageName);
+        return infoService.getInfoByPackage(channelId, packageName);
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)

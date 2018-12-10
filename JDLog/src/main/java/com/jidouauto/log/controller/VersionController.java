@@ -45,7 +45,14 @@ public class VersionController {
         return versionService.getVersionByVersionId(versionId);
     }
 
-
+    @RequestMapping(value = "/getVersionByVersionName", method = RequestMethod.GET)
+    @ApiOperation(value = "根据版本名获取版本信息", notes = "根据版本名获取版本信息")
+    public BaseResponse<VersionEntity> getVersionByVersionName(@ApiParam(required = true, name = "appId", value = "应用ID")
+                                                               @RequestParam(value = "appId", required = true) int appId,
+                                                               @ApiParam(required = true, name = "versionName", value = "版本名")
+                                                               @RequestParam(value = "versionName", required = true) String versionName) {
+        return versionService.getVersionByVersionName(appId, versionName);
+    }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "插入版本信息", notes = "插入版本信息")

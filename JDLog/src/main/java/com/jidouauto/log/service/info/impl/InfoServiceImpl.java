@@ -79,14 +79,14 @@ public class InfoServiceImpl implements InfoService {
     }
 
     @Override
-    public BaseResponse<InfoEntity> getInfoByPackage(String packageName) {
+    public BaseResponse<InfoEntity> getInfoByPackage(int channelId, String packageName) {
         BaseResponse<InfoEntity> response = new BaseResponse<>();
-        if (StringUtils.isEmpty(packageName)) {
+        if (StringUtils.isEmpty(packageName) || channelId <= 0) {
             response.setResultCode(LogCode.RC_PARAMETER_ERROR.getCode());
             response.setResultMessage(LogCode.RC_PARAMETER_ERROR.getMessage());
             return response;
         }
-        InfoEntity infoEntity = infoDao.getInfoByPackage(packageName);
+        InfoEntity infoEntity = infoDao.getInfoByPackage(channelId, packageName);
         response.setData(infoEntity);
         response.setResultCode(LogCode.RC_SUCCESS.getCode());
         response.setResultMessage(LogCode.RC_SUCCESS.getMessage());

@@ -48,7 +48,7 @@
         select
         <include refid="BASE_COLUMN"/>
         from version
-        where versionName = #{versionName}
+        where versionName = #{versionName} and appId=#{appId}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="versionId"

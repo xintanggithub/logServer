@@ -80,14 +80,14 @@ public class VersionServiceImpl implements VersionService {
     }
 
     @Override
-    public BaseResponse<VersionEntity> getVersionByVersionName(String versionName) {
+    public BaseResponse<VersionEntity> getVersionByVersionName(int appId, String versionName) {
         BaseResponse<VersionEntity> response = new BaseResponse<>();
-        if (StringUtils.isEmpty(versionName)) {
+        if (StringUtils.isEmpty(versionName) || appId <= 0) {
             response.setResultCode(LogCode.RC_PARAMETER_ERROR.getCode());
             response.setResultMessage(LogCode.RC_PARAMETER_ERROR.getMessage());
             return response;
         }
-        VersionEntity versionEntity = versionDao.getVersionByVersionName(versionName);
+        VersionEntity versionEntity = versionDao.getVersionByVersionName(appId, versionName);
         response.setData(versionEntity);
         response.setResultCode(LogCode.RC_SUCCESS.getCode());
         response.setResultMessage(LogCode.RC_SUCCESS.getMessage());
