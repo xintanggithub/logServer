@@ -85,7 +85,7 @@ public class UploadController {
         } catch (Exception e) {
             LOGGER.error("upload error : " + JSON.toJSONString(e));
         }
-        checkLogVersion(headers, filePath);
+        checkLogVersion(headers, filePath, fileName);
         // 返回存放路径
         response.setData(filePath);
         response.setResultCode(LogCode.RC_SUCCESS.getCode());
@@ -93,15 +93,15 @@ public class UploadController {
         return response;
     }
 
-    private void checkLogVersion(AppInfoByHeaderEntity headers, String filePath) {
+    private void checkLogVersion(AppInfoByHeaderEntity headers, String filePath, String filename) {
         //查询渠道
         String channel = headers.getChannel();
         BaseResponse<ChannelEntity> channelResponse = channelService.getChannelByName(channel);
         if (null == channelResponse.getData()) {//如果渠道为空
             ChannelEntity channelEntity = new ChannelEntity();
             channelEntity.setChannelName(channel);
-            channelEntity.setCreateTime(System.currentTimeMillis());
-            channelEntity.setUpdateTime(System.currentTimeMillis());
+            channelEntity.setCreateTime(System.currentTimeMillis() / 1000);
+            channelEntity.setUpdateTime(System.currentTimeMillis() / 1000);
             BaseResponse<Integer> channelInsertResponse = channelService.insert(channelEntity);
             if (channelInsertResponse.getData() != 0) {
                 channelEntity.setChannelId(channelInsertResponse.getData());
@@ -122,7 +122,8 @@ public class UploadController {
             infoEntity.setAppPackage(packageName);
             infoEntity.setChannelId(channelResponse.getData().getChannelId());
             infoEntity.setChannelName(channelResponse.getData().getChannelName());
-            infoEntity.setCreateTime(System.currentTimeMillis());
+            infoEntity.setCreateTime(System.currentTimeMillis() / 1000);
+            infoEntity.setUpdateTime(System.currentTimeMillis() / 1000);
             BaseResponse<Integer> infoInsertResponse = infoService.insert(infoEntity);
             if (infoInsertResponse.getData() != 0) {
                 infoEntity.setAppId(infoInsertResponse.getData());
@@ -142,7 +143,8 @@ public class UploadController {
             versionEntity.setAppId(infoResponse.getData().getAppId());
             versionEntity.setVersionCode(versionCode);
             versionEntity.setVersionName(versionName);
-            versionEntity.setCreateTime(System.currentTimeMillis());
+            versionEntity.setCreateTime(System.currentTimeMillis() / 1000);
+            versionEntity.setUpdateTime(System.currentTimeMillis() / 1000);
             BaseResponse<Integer> versionInsertResponse = versionService.insert(versionEntity);
             if (versionInsertResponse.getData() != 0) {
                 versionEntity.setVersionId(versionInsertResponse.getData());
@@ -158,12 +160,13 @@ public class UploadController {
         if (null == logResponse.getData()) {
             LogEntity logEntity = new LogEntity();
             logEntity.setLogName(filePath);
-            logEntity.setLogUrl(filePath);
+            logEntity.setLogUrl(filePath + filename);
             logEntity.setVersionId(versionResponse.getData().getVersionId());
-            logEntity.setCreateTime(System.currentTimeMillis());
+            logEntity.setCreateTime(System.currentTimeMillis() / 1000);
+            logEntity.setUpdateTime(System.currentTimeMillis() / 1000);
             BaseResponse<Integer> logInsertResponse = logService.insert(logEntity);
             if (logInsertResponse.getData() != 0) {
-                LOGGER.error("insert log success ! id:" + logInsertResponse.getData());
+                LOGGER.info("insert log success ! id:" + logInsertResponse.getData());
             } else {
                 LOGGER.error("insert log error !  logFile:" + filePath);
                 return;
