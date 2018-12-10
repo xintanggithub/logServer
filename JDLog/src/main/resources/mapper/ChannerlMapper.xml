@@ -35,6 +35,13 @@
         WHERE channelId = #{channelId}
     </select>
 
+    <select id="getChannelByName" resultType="com.jidouauto.log.model.ChannelEntity">
+        SELECT
+        <include refid="BASE_COLUMN"/>
+        FROM channel
+        WHERE channelName = #{channelName}
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="channelId"
             parameterType="com.jidouauto.log.model.ChannelEntity">
         INSERT INTO

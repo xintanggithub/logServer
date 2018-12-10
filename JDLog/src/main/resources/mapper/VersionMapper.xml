@@ -44,6 +44,13 @@
         where versionId = #{versionId}
     </select>
 
+    <select id="getVersionByVersionName" resultType="com.jidouauto.log.model.VersionEntity">
+        select
+        <include refid="BASE_COLUMN"/>
+        from version
+        where versionName = #{versionName}
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="versionId"
             parameterType="com.jidouauto.log.model.VersionEntity">
         INSERT INTO version(appId, versionCode, versionName, createTime, updateTime)

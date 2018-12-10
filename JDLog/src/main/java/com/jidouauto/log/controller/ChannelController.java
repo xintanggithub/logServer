@@ -34,6 +34,13 @@ public class ChannelController {
         return channelService.getChannel(channelId);
     }
 
+    @RequestMapping(value = "/getChannelByName", method = RequestMethod.GET)
+    @ApiOperation(value = "根据渠道名获取渠道", notes = "根据渠道名获取渠道")
+    public BaseResponse<ChannelEntity> getChannelByName(@ApiParam(required = true, name = "channelName", value = "渠道名")
+                                                        @RequestParam(value = "channelName", required = true) String channelName) {
+        return channelService.getChannelByName(channelName);
+    }
+
     @RequestMapping(value = "/insertChannel", method = RequestMethod.POST)
     @ApiOperation(value = "上传渠道", notes = "上传渠道")
     public BaseResponse<Integer> insert(@RequestBody ChannelEntity channelEntity) {

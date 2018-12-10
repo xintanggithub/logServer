@@ -12,6 +12,9 @@ public interface ChannelDao {
     //根据ID获取渠道信息
     ChannelEntity getChannel(int channelId);
 
+    //根据渠道名获取渠道信息
+    ChannelEntity getChannelByName(String channelName);
+
     //插入渠道
     void insert(ChannelEntity channelEntity);
 

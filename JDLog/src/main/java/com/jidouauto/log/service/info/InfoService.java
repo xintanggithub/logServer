@@ -15,6 +15,8 @@ public interface InfoService {
     //根据应用ID获取应用信息
     BaseResponse<InfoEntity> getInfo(int infoId);
 
+    BaseResponse<InfoEntity> getInfoByPackage(String packageName);
+
     //插入应用
     BaseResponse<Integer> insert(InfoEntity infoEntity);
 

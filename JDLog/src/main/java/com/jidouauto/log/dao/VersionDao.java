@@ -17,6 +17,9 @@ public interface VersionDao {
     //根据版本ID获取版本信息
     VersionEntity getVersionByVersionId(@Param("versionId") int versionId);
 
+    //根据版本ID获取版本信息
+    VersionEntity getVersionByVersionName(@Param("versionName") String versionName);
+
     //插入版本信息
     void insert(VersionEntity versionEntity);
 

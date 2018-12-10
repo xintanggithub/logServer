@@ -10,6 +10,8 @@ public interface ChannelService {
 
     BaseResponse<ChannelEntity> getChannel(int channelId);
 
+    BaseResponse<ChannelEntity> getChannelByName(String channelName);
+
     BaseResponse<Integer> insert(ChannelEntity channelEntity);
 
     BaseResponse update(ChannelEntity channelEntity);

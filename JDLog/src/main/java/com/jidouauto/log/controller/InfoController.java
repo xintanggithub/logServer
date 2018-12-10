@@ -45,6 +45,13 @@ public class InfoController {
         return infoService.getInfo(appId);
     }
 
+    @RequestMapping(value = "/getInfoByPackageName", method = RequestMethod.GET)
+    @ApiOperation(value = "获取应用信息", notes = "获取应用信息")
+    public BaseResponse<InfoEntity> getInfoByPackageName(@ApiParam(required = true, name = "packageName", value = "包名")
+                                                         @RequestParam(value = "packageName", required = true) String packageName) {
+        return infoService.getInfoByPackage(packageName);
+    }
+
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ApiOperation(value = "插入应用信息", notes = "插入应用信息")
     public BaseResponse<Integer> insert(@RequestBody InfoEntity infoEntity) {

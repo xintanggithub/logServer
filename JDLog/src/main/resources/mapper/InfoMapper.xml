@@ -45,6 +45,13 @@
         where appId = #{appId}
     </select>
 
+    <select id="getInfoByPackage" resultType="com.jidouauto.log.model.InfoEntity">
+        select
+        <include refid="BASE_COLUMN"/>
+        from info
+        where appPackage = #{packageName}
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="appId"
             parameterType="com.jidouauto.log.model.InfoEntity">
         INSERT INTO info(channelId, appName, appPackage, createTime, updateTime, channelName)

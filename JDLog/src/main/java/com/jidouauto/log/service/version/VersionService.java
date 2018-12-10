@@ -15,6 +15,8 @@ public interface VersionService {
     //根据版本ID获取版本信息
     BaseResponse<VersionEntity> getVersionByVersionId(int versionId);
 
+    BaseResponse<VersionEntity> getVersionByVersionName(String versionName);
+
     //插入版本信息
     BaseResponse<Integer> insert(VersionEntity versionEntity);
 
