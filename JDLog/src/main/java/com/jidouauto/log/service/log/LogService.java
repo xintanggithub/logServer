@@ -12,6 +12,8 @@ public interface LogService {
 
     BaseResponse<LogEntity> getLogById(int logId);
 
+    BaseResponse<LogEntity> getLogByUrl(int versionId, String logUrl);
+
     //插入版本信息
     BaseResponse<Integer> insert(LogEntity logEntity);
 
