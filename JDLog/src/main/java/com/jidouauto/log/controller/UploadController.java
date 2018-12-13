@@ -159,7 +159,7 @@ public class UploadController {
                 filePath);
         if (null == logResponse.getData()) {
             LogEntity logEntity = new LogEntity();
-            logEntity.setLogName(filePath);
+            logEntity.setLogName(filename);
             logEntity.setLogUrl(filePath + filename);
             logEntity.setVersionId(versionResponse.getData().getVersionId());
             logEntity.setCreateTime(System.currentTimeMillis() / 1000);
