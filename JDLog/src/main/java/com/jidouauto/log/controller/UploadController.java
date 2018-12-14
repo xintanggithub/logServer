@@ -82,14 +82,18 @@ public class UploadController {
         //调用文件处理类FileUtil，处理文件，将文件写入指定位置
         try {
             FileUtil.uploadFile(file.getBytes(), filePath, fileName);
+            checkLogVersion(headers, filePath, fileName);
+            // 返回存放路径
+            response.setData(filePath + fileName);
+            response.setResultCode(LogCode.RC_SUCCESS.getCode());
+            response.setResultMessage(LogCode.RC_SUCCESS.getMessage());
         } catch (Exception e) {
             LOGGER.error("upload error : " + JSON.toJSONString(e));
+            response.setData(e.getMessage());
+            response.setResultCode(LogCode.RC_UPLOAD_ERROR.getCode());
+            response.setResultMessage(LogCode.RC_UPLOAD_ERROR.getMessage());
+
         }
-        checkLogVersion(headers, filePath, fileName);
-        // 返回存放路径
-        response.setData(filePath);
-        response.setResultCode(LogCode.RC_SUCCESS.getCode());
-        response.setResultMessage(LogCode.RC_SUCCESS.getMessage());
         return response;
     }
 
