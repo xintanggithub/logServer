@@ -14,6 +14,8 @@ public interface LogDao {
 
     LogEntity getLogById(@Param("logId") int logId);
 
+    LogEntity getLogByLogName(@Param("versionId") int versionId, @Param("logName") String logName);
+
     LogEntity getLogByUrl(@Param("versionId") int versionId, @Param("logUrl") String logUrl);
 
     //插入版本信息

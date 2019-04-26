@@ -94,6 +94,21 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
+    public BaseResponse<LogEntity> getLogByLogName(int versionId, String logName) {
+        BaseResponse<LogEntity> response = new BaseResponse<>();
+        if (versionId <= 0 || StringUtils.isEmpty(logName)) {
+            response.setResultCode(LogCode.RC_PARAMETER_ERROR.getCode());
+            response.setResultMessage(LogCode.RC_PARAMETER_ERROR.getMessage());
+            return response;
+        }
+        LogEntity logEntity = logDao.getLogByLogName(versionId, logName);
+        response.setData(logEntity);
+        response.setResultCode(LogCode.RC_SUCCESS.getCode());
+        response.setResultMessage(LogCode.RC_SUCCESS.getMessage());
+        return response;
+    }
+
+    @Override
     public BaseResponse<Integer> insert(LogEntity logEntity) {
         BaseResponse<Integer> response = new BaseResponse();
         if (null == logEntity || StringUtils.isEmpty(logEntity.getLogName())

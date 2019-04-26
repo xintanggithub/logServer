@@ -16,10 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +44,14 @@ public class UploadController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ApiOperation(value = "上传文件", notes = "提供各种文件上传服务")
-    public BaseResponse<String> uploadFile(@RequestParam(value = "file", required = true) MultipartFile file
+    public BaseResponse<String> uploadFile(
+            @RequestHeader(value = "appName", required = false) String appName,
+            @RequestHeader(value = "channel", required = false) String channel,
+            @RequestHeader(value = "X_AUTH_DEVICE_TYPE", required = false) String deviceType,
+            @RequestHeader(value = "packageName", required = false) String packageName,
+            @RequestHeader(value = "versionCode", required = false) String versionCode,
+            @RequestHeader(value = "versionName", required = false) String versionName,
+            @RequestParam(value = "file", required = true) MultipartFile file
             , HttpServletRequest request) {
         AppInfoByHeaderEntity headers = new AppInfoByHeaderEntity();
         BaseResponse<String> response = new BaseResponse<>();
@@ -56,7 +60,7 @@ public class UploadController {
             headers.setChannel(request.getHeader(X_AUTH_CHANNEL));
             headers.setDeviceType(request.getHeader(X_AUTH_DEVICE_TYPE));
             headers.setPackageName(request.getHeader(X_AUTH_PACKAGE_NAME));
-            headers.setVersionCode(StringUtils.isEmpty(request.getHeader(X_AUTH_VERSION_CODE)) ? 0
+            headers.setVersionCode(StringUtils.isEmpty(request.getHeader(AppInfoByHeaderEntity.X_AUTH_VERSION_CODE)) ? 0
                     : Integer.valueOf(request.getHeader(X_AUTH_VERSION_CODE)));
             headers.setVersionName(request.getHeader(X_AUTH_VERSION_NAME));
 
@@ -75,29 +79,17 @@ public class UploadController {
         }
         String contentType = file.getContentType();   //文件类型
         String fileName = file.getOriginalFilename();  //名字
+        //校验名字是否重复，如果重复，加上前缀：repeat_time
         LOGGER.info("文件类型:" + contentType + "    文件名称:" + fileName);
         //文件存放路径
         String filePath = path;
-        LOGGER.info("存放路径:" + path);
         //调用文件处理类FileUtil，处理文件，将文件写入指定位置
-        try {
-            FileUtil.uploadFile(file.getBytes(), filePath, fileName);
-            checkLogVersion(headers, filePath, fileName);
-            // 返回存放路径
-            response.setData(filePath + fileName);
-            response.setResultCode(LogCode.RC_SUCCESS.getCode());
-            response.setResultMessage(LogCode.RC_SUCCESS.getMessage());
-        } catch (Exception e) {
-            LOGGER.error("upload error : " + JSON.toJSONString(e));
-            response.setData(e.getMessage());
-            response.setResultCode(LogCode.RC_UPLOAD_ERROR.getCode());
-            response.setResultMessage(LogCode.RC_UPLOAD_ERROR.getMessage());
-
-        }
-        return response;
+        return checkLogVersion(headers, filePath, fileName, file);
     }
 
-    private void checkLogVersion(AppInfoByHeaderEntity headers, String filePath, String filename) {
+    private BaseResponse<String> checkLogVersion(AppInfoByHeaderEntity headers, String filePath, String filename,
+                                                 MultipartFile file) {
+        BaseResponse<String> baseResponse = new BaseResponse<>();
         //查询渠道
         String channel = headers.getChannel();
         BaseResponse<ChannelEntity> channelResponse = channelService.getChannelByName(channel);
@@ -112,7 +104,10 @@ public class UploadController {
                 channelResponse.setData(channelEntity);
             } else {
                 LOGGER.error("insert channel error ! channel =>" + channel);
-                return;
+                baseResponse.setData("insert channel error ! channel =>" + channel);
+                baseResponse.setResultCode(LogCode.RC_UPLOAD_ERROR.getCode());
+                baseResponse.setResultMessage(LogCode.RC_UPLOAD_ERROR.getMessage());
+                return baseResponse;
             }
         }
         //查询应用
@@ -134,7 +129,10 @@ public class UploadController {
                 infoResponse.setData(infoEntity);
             } else {
                 LOGGER.error("insert info error !  appInfo:" + appName + "  -  " + packageName);
-                return;
+                baseResponse.setData("insert info error !  appInfo:" + appName + "  -  " + packageName);
+                baseResponse.setResultCode(LogCode.RC_UPLOAD_ERROR.getCode());
+                baseResponse.setResultMessage(LogCode.RC_UPLOAD_ERROR.getMessage());
+                return baseResponse;
             }
         }
         //查询版本
@@ -155,12 +153,14 @@ public class UploadController {
                 versionResponse.setData(versionEntity);
             } else {
                 LOGGER.error("insert version error !  versionCode:" + versionCode + "  versionName:  " + versionName);
-                return;
+                baseResponse.setData("insert version error !  versionCode:" + versionCode + "  versionName:  " + versionName);
+                baseResponse.setResultCode(LogCode.RC_UPLOAD_ERROR.getCode());
+                baseResponse.setResultMessage(LogCode.RC_UPLOAD_ERROR.getMessage());
+                return baseResponse;
             }
         }
         //查询日志
-        BaseResponse<LogEntity> logResponse = logService.getLogByUrl(versionResponse.getData().getVersionId(),
-                filePath);
+        BaseResponse<LogEntity> logResponse = logService.getLogByLogName(versionResponse.getData().getVersionId(), filename);
         if (null == logResponse.getData()) {
             LogEntity logEntity = new LogEntity();
             logEntity.setLogName(filename);
@@ -168,18 +168,54 @@ public class UploadController {
             logEntity.setVersionId(versionResponse.getData().getVersionId());
             logEntity.setCreateTime(System.currentTimeMillis() / 1000);
             logEntity.setUpdateTime(System.currentTimeMillis() / 1000);
-            BaseResponse<Integer> logInsertResponse = logService.insert(logEntity);
-            if (logInsertResponse.getData() != 0) {
-                LOGGER.info("insert log success ! id:" + logInsertResponse.getData());
-            } else {
-                LOGGER.error("insert log error !  logFile:" + filePath);
-                return;
+
+            try {
+                FileUtil.uploadFile(file.getBytes(), filePath, filename);
+                BaseResponse<Integer> logInsertResponse = logService.insert(logEntity);
+                if (logInsertResponse.getData() != 0) {
+                    LOGGER.info("insert log success ! id:" + logInsertResponse.getData());
+                } else {
+                    LOGGER.error("insert log error !  logFile:" + filePath);
+                    baseResponse.setData("insert log error !  logFile:" + filePath);
+                    baseResponse.setResultCode(LogCode.RC_UPLOAD_ERROR.getCode());
+                    baseResponse.setResultMessage(LogCode.RC_UPLOAD_ERROR.getMessage());
+                    return baseResponse;
+                }
+                // 返回存放路径
+                baseResponse.setData(filePath + filename);
+                baseResponse.setResultCode(LogCode.RC_SUCCESS.getCode());
+                baseResponse.setResultMessage(LogCode.RC_SUCCESS.getMessage());
+                return baseResponse;
+            } catch (Exception e) {
+                LOGGER.error("upload error : " + JSON.toJSONString(e));
+                baseResponse.setData(e.getMessage());
+                baseResponse.setResultCode(LogCode.RC_UPLOAD_ERROR.getCode());
+                baseResponse.setResultMessage(LogCode.RC_UPLOAD_ERROR.getMessage());
+                return baseResponse;
             }
         } else {
-            LogEntity logEntity = logResponse.getData();
-            logEntity.setUpdateTime(0L);
-            logService.update(logEntity);
+            //重复的就重命名
+            try {
+                filename = "repeat_" + System.currentTimeMillis() + "_" + filename;
+                FileUtil.uploadFile(file.getBytes(), filePath, filename);
+                LogEntity logEntity = logResponse.getData();
+                logEntity.setUpdateTime(0L);
+                logService.update(logEntity);
+                LOGGER.info("存放路径:" + path);
+                // 返回存放路径
+                baseResponse.setData(filePath + filename);
+                baseResponse.setResultCode(LogCode.RC_SUCCESS.getCode());
+                baseResponse.setResultMessage(LogCode.RC_SUCCESS.getMessage());
+                return baseResponse;
+            } catch (Exception e) {
+                LOGGER.error("upload error : " + JSON.toJSONString(e));
+                baseResponse.setData(e.getMessage());
+                baseResponse.setResultCode(LogCode.RC_UPLOAD_ERROR.getCode());
+                baseResponse.setResultMessage(LogCode.RC_UPLOAD_ERROR.getMessage());
+                return baseResponse;
+            }
         }
     }
+
 
 }

@@ -51,6 +51,13 @@
         where versionId = #{versionId} and logUrl=#{logUrl}
     </select>
 
+    <select id="getLogByLogName" resultType="com.jidouauto.log.model.LogEntity">
+        select
+        <include refid="BASE_COLUMN"/>
+        from log
+        where versionId = #{versionId} and logName=#{logName}
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="logId"
             parameterType="com.jidouauto.log.model.LogEntity">
         INSERT INTO log(versionId, logName, logUrl, createTime, updateTime)
