@@ -25,7 +25,7 @@ import static com.jidouauto.log.model.AppInfoByHeaderEntity.*;
 
 @RestController("UploadController")
 @RequestMapping("/v1/upload")
-@Api(description = "upload", tags = "upload")
+@Api(value = "UploadController 上传文件", description = "upload", tags = "upload")
 public class UploadController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UploadController.class);

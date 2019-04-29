@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController("LogController")
 @RequestMapping("/v1/log")
-@Api(description = "log", tags = "log")
+@Api(value = "LogController 日志",description = "log", tags = "log")
 public class LogController {
 
     @Autowired

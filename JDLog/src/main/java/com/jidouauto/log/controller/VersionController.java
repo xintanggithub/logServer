@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController("VersionController")
 @RequestMapping("/v1/version")
-@Api(description = "version", tags = "version")
+@Api(value = "VersionController 应用版本信息",description = "version", tags = "version")
 public class VersionController {
 
     @Autowired

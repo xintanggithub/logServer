@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController("ChannelController")
 @RequestMapping("/v1/channel")
-@Api(description = "channel", tags = "channel")
+@Api(value = "ChannelController 渠道",description = "channel", tags = "channel")
 public class ChannelController {
 
     @Autowired

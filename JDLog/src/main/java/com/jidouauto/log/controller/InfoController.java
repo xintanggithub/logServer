@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController("InfoController")
 @RequestMapping("/v1/info")
-@Api(description = "info", tags = "info")
+@Api(value = "InfoController 应用信息",description = "info", tags = "info")
 public class InfoController {
 
     @Autowired
