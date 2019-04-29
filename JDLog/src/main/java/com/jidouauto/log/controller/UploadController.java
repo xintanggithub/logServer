@@ -198,10 +198,23 @@ public class UploadController {
             try {
                 filename = "repeat_" + System.currentTimeMillis() + "_" + filename;
                 FileUtil.uploadFile(file.getBytes(), filePath, filename);
-                LogEntity logEntity = logResponse.getData();
-                logEntity.setUpdateTime(0L);
-                logService.update(logEntity);
+                LogEntity logEntity = new LogEntity();
+                logEntity.setLogName(filename);
+                logEntity.setLogUrl(filePath + filename);
+                logEntity.setVersionId(versionResponse.getData().getVersionId());
+                logEntity.setCreateTime(System.currentTimeMillis() / 1000);
+                logEntity.setUpdateTime(System.currentTimeMillis() / 1000);
                 LOGGER.info("存放路径:" + path);
+                BaseResponse<Integer> logInsertResponse = logService.insert(logEntity);
+                if (logInsertResponse.getData() != 0) {
+                    LOGGER.info("insert log success ! id:" + logInsertResponse.getData());
+                } else {
+                    LOGGER.error("insert log error !  logFile:" + filePath);
+                    baseResponse.setData("insert log error !  logFile:" + filePath);
+                    baseResponse.setResultCode(LogCode.RC_UPLOAD_ERROR.getCode());
+                    baseResponse.setResultMessage(LogCode.RC_UPLOAD_ERROR.getMessage());
+                    return baseResponse;
+                }
                 // 返回存放路径
                 baseResponse.setData(filePath + filename);
                 baseResponse.setResultCode(LogCode.RC_SUCCESS.getCode());
